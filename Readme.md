@@ -6,12 +6,28 @@ NaTravel is a travel website that allows users to book destinations, hotels, fli
 
 The NaTravel database contains the following tables:
 
-Users: This table stores information about registered users, such as their username, password, email, name, and profile picture.
-Destinations: This table stores information about destinations, such as their name, description, location, image, and average rating.
-Hotels: This table stores information about hotels, such as their name, description, location, image, average rating, and price per night.
-Flights: This table stores information about flights, such as the airline, departure and arrival locations, departure and arrival times, price, and available seats.
-Bookings: This table stores information about bookings, such as the user ID, destination ID, hotel ID, flight ID, check-in date, check-out date, total price, and booking status.
-Backend Flowchart
+## Users:
+
+This table stores information about registered users, such as their username, password, email, name, and profile picture.
+
+## Destinations:
+
+This table stores information about destinations, such as their name, description, location, image, and average rating.
+
+## Hotels:
+
+This table stores information about hotels, such as their name, description, location, image, average rating, and price per night.
+
+## Flights:
+
+This table stores information about flights, such as the airline, departure and arrival locations, departure and arrival times, price, and available seats.
+
+## Bookings:
+
+This table stores information about bookings, such as the user ID, destination ID, hotel ID, flight ID, check-in date, check-out date, total price, and booking status.
+
+## Backend Flowchart
+
 The following flowchart shows the backend flow of the NaTravel website:
 
 ## [Start]
