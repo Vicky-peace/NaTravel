@@ -46,3 +46,48 @@ export const register = async (req, res) => {
     sql.close();
   }
 };
+
+export const login = async (req, res) => {
+  const { Email, Password } = req.body;
+  try {
+    // Connect to the database
+    let pool = await sql.connect(config.sql);
+    let result = await pool
+      .request()
+      .input("Email", sql.VarChar, Email)
+      .query("SELECT * FROM Users WHERE Email = @Email");
+    console.log(result);
+    const user = result.recordset[0];
+    console.log(user);
+    if (!user) {
+      res.status(401).json({
+        status: "Error",
+        message: "Authentication failed User does not exist",
+      });
+    } else {
+      // Create a jwt token store
+      let token = `JWT ${jwt.sign(
+        {
+          Email: user.Email,
+          Username: user.Username,
+          user_id: user.UserID,
+        },
+        process.env.SECRET,
+        { expiresIn: process.env.Expiry }
+      )}`;
+
+      const { UserID, Username, Email } = user;
+      return res.json({
+        id: UserID,
+        Username: Username,
+        Email: Email,
+        token: token,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json(error);
+  } finally {
+    sql.close();
+  }
+};
