@@ -64,25 +64,34 @@ export const login = async (req, res) => {
         status: "Error",
         message: "Authentication failed User does not exist",
       });
-    } else {
-      // Create a jwt token store
-      let token = `JWT ${jwt.sign(
-        {
-          Email: user.Email,
-          Username: user.Username,
-          user_id: user.UserID,
-        },
-        process.env.SECRET,
-        { expiresIn: process.env.Expiry }
-      )}`;
+    } else if (user) {
+      if (!bcrypt.compareSync(Password, user.Password)) {
+        res.status(404).json({
+          status: "error",
+          message: "Invalid credentials",
+        });
+      } else {
+        // Create a jwt token store
+        let token = `JWT ${jwt.sign(
+          {
+            Email: user.Email,
+            Username: user.Username,
+            user_id: user.UserID,
+          },
+          process.env.SECRET,
+          { expiresIn: process.env.Expiry }
+        )}`;
 
-      const { UserID, Username, Email } = user;
-      return res.json({
-        id: UserID,
-        Username: Username,
-        Email: Email,
-        token: token,
-      });
+        const { UserID, Username, Email } = user;
+        return res.json({
+          status: "success",
+          message: "User Logged in successfully",
+          id: UserID,
+          Username: Username,
+          Email: Email,
+          token: token,
+        });
+      }
     }
   } catch (error) {
     console.log(error);
