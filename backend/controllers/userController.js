@@ -45,3 +45,32 @@ export const getAllUsers = async (req, res) => {
     res.status(404).json(error);
   }
 };
+
+// Update user
+
+export const updateUser = async (req, res) => {
+  const { UserId } = req.params;
+  const { Username, Email, Name, ProfilePicture } = req.body;
+  try {
+    let pool = await sql.connect(config.sql);
+    let updateUser = await pool
+      .request()
+
+      .input("UserID", sql.Int, UserId)
+      .input("Email", sql.VarChar, Email)
+      .input("Username", sql.VarChar, Username)
+      .input("Name", sql.VarChar, Name)
+      .input("ProfilePicture", sql.VarChar, ProfilePicture)
+      .query(
+        "UPDATE Users SET Email= @Email, Username = @Username, Name = @Name, ProfilePicture = @ProfilePicture"
+      );
+    console.log(updateUser);
+    res.status(200).json({
+      status: "success",
+      user: updateUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error });
+  }
+};
