@@ -28,3 +28,20 @@ export const getUser = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+// Get all users
+export const getAllUsers = async (req, res) => {
+  try {
+    let pool = await sql.connect(config.sql);
+    const result = await pool.request().query("SELECT * FROM Users");
+
+    const users = result.recordset.map((user) => {
+      const { password, ...otherDetails } = user;
+      return otherDetails;
+    });
+    res.status(404).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json(error);
+  }
+};
