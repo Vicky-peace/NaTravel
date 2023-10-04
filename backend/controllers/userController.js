@@ -74,3 +74,23 @@ export const updateUser = async (req, res) => {
     res.status(404).json({ message: error });
   }
 };
+
+// Delete User
+export const deleteUser = async (req, res) => {
+  const { UserID } = req.params;
+  try {
+    let pool = await sql.connect(config.sql);
+    await pool
+      .request()
+      .input("UserID", sql.Int, UserID)
+      .query("DELETE FROM Users  WHERE UserID = @UserID");
+
+    res.status(200).json({
+      status: "succcess",
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
