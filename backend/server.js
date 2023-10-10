@@ -7,6 +7,7 @@ import config from "./db/config.js";
 // Routes to be imported here
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import hotelRoute from "./routes/hotelRoute.js";
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 // Instantiate routes here
 authRoutes(app);
 userRoutes(app);
+hotelRoute(app);
 
 app.get("/", (req, res) => {
   res.sendStatus("Hello Welcome To My API");
