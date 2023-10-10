@@ -35,3 +35,16 @@ export const createHotel = async (req, res) => {
     res.status(500).json({ error: "An error occurred" });
   }
 };
+
+// Get Hotels
+export const getHotels = async (req, res) => {
+  try {
+    //  connect to the db
+    let pool = await sql.connect(config.sql);
+    const result = await pool.request().query("SELECT * FROM Hotels");
+    res.status(201).json(result.recordset);
+  } catch (error) {
+    console.error(err);
+    res.status(500).json({ error: "An error occurred" });
+  }
+};
